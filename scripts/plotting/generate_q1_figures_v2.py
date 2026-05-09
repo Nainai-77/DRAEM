@@ -21,9 +21,9 @@ import seaborn as sns
 import warnings
 warnings.filterwarnings('ignore')
 
-ROOT = Path('/root/autodl-tmp/1_DRAEM_LLM')
-PR = Path('.')
-OUT = PR / 'figures_q1_redraw'
+ROOT = Path(__file__).resolve().parent.parent.parent
+PR = ROOT / 'results'
+OUT = ROOT / 'figures'
 OUT.mkdir(parents=True, exist_ok=True)
 
 # =====================================================================
@@ -87,7 +87,7 @@ def save(fig, name):
 df_w = pd.read_csv(PR / 'final_window_result_stage_2.csv')
 df_b = pd.read_csv(PR / 'final_baseline_result_stage_1.csv')
 df_a = pd.read_csv(PR / 'final_ablation_result.csv')
-lef = pd.read_csv(ROOT / 'results/qwen_event_factor/qwen_event_daily.csv')
+lef = pd.read_csv(ROOT / 'results' / 'qwen_event_daily.csv')
 ds = pd.read_csv(ROOT / 'data/dataset_with_qwen_event_memory.csv')
 ds['date'] = pd.to_datetime(ds['date'])
 lef['date'] = pd.to_datetime(lef['date'])
@@ -99,7 +99,7 @@ df_b['Method'] = df_b['Method'].replace({'Residual-QEF-DRAEM': 'DRAEM'})
 df_w['ours_variant'] = df_w['ours_variant'].replace({'residual_logistic': 'DRAEM', 'residual_ridge': 'DRAEM'})
 
 # Load daily predictions for qualitative plots
-daily_fn = ROOT / 'results/window_residual_daily/residual_daily_predictions.csv'
+daily_fn = ROOT / 'results' / 'residual_daily_predictions.csv'
 daily = pd.read_csv(daily_fn) if daily_fn.exists() else None
 if daily is not None:
     daily['date'] = pd.to_datetime(daily['date'])
@@ -274,8 +274,10 @@ def generate_fig01_qef_construction():
     ax.set_xlabel('Calendar time', fontsize=9)
     ax.set_title('B. Temporal semantic coverage by channel', fontsize=10.5,
                  fontweight='bold', loc='left', color=COL['dark'])
-    ax.legend(frameon=True, fontsize=7.2, ncol=3, loc='upper left', bbox_to_anchor=(0, 1.02))
+    ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=5, frameon=False, fontsize=7.2)
     ax.spines[['top', 'right']].set_visible(False)
+    ax.spines['left'].set_color('#cccccc')
+    ax.spines['bottom'].set_color('#cccccc')
     ax.grid(axis='y', color=COL['light'], alpha=0.55)
     for label in ax.get_xticklabels():
         label.set_rotation(40)
@@ -283,7 +285,7 @@ def generate_fig01_qef_construction():
 
     fig.suptitle('LEF construction overview and temporal coverage',
                  fontsize=12.4, fontweight='bold', color=COL['dark'], y=0.98)
-    save(fig, 'fig01_qef_construction_coverage')
+    save(fig, 'fig01_lef_construction_coverage')
 
 
 # =====================================================================

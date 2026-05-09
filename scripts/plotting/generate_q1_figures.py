@@ -13,8 +13,8 @@ from matplotlib.colors import LinearSegmentedColormap, TwoSlopeNorm
 import seaborn as sns
 
 ROOT = Path(__file__).resolve().parent.parent.parent / 'results'
-PROJECT = Path('/root/autodl-tmp/1_DRAEM_LLM')
-OUT = Path(__file__).resolve().parent.parent.parent / 'figures'
+PROJECT = Path(__file__).resolve().parent.parent.parent
+OUT = PROJECT / 'figures'
 OUT.mkdir(parents=True, exist_ok=True)
 
 sns.set_theme(style='white', context='paper')
@@ -56,11 +56,11 @@ def save(fig, name):
 # ------------------------------------------------------------------
 # Figure 1: QEF construction and temporal coverage
 # ------------------------------------------------------------------
-qef_path = ROOT / 'qwen_event_daily.csv'
+qef_path = PROJECT / 'results' / 'qwen_event_daily.csv'
 if qef_path.exists():
     qef = pd.read_csv(qef_path)
 else:
-    qef = pd.read_csv(Path(__file__).resolve().parent.parent.parent / 'data' / 'dataset_with_qwen_event_memory.csv')
+    qef = pd.read_csv(PROJECT / 'data' / 'dataset_with_qwen_event_memory.csv')
 qef['date'] = pd.to_datetime(qef['date'])
 mods = ['policy','market','finance','trade','compliance']
 active_cols = [f'qef_{m}_active' for m in mods if f'qef_{m}_active' in qef.columns]
@@ -108,8 +108,10 @@ if len(cov) > 0:
 ax1.set_ylabel('Monthly active ratio')
 ax1.set_xlabel('Calendar time')
 ax1.set_title('B  Event-module coverage over time', loc='left', fontweight='bold')
-ax1.legend(frameon=False, ncol=3, loc='upper left', bbox_to_anchor=(0, 1.02))
+ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15), ncol=5, frameon=False)
 ax1.spines[['top','right']].set_visible(False)
+ax1.spines['left'].set_color('#cccccc')
+ax1.spines['bottom'].set_color('#cccccc')
 ax1.grid(axis='y', color=COL['light_gray'], lw=0.8)
 
 ax2 = fig.add_subplot(gs[1, 1])
@@ -119,8 +121,10 @@ ax2.set_ylabel('Mean absolute QEF signal')
 ax2.set_xlabel('Calendar time')
 ax2.set_title('C  Semantic signal intensity', loc='left', fontweight='bold')
 ax2.spines[['top','right']].set_visible(False)
+ax2.spines['left'].set_color('#cccccc')
+ax2.spines['bottom'].set_color('#cccccc')
 ax2.grid(axis='y', color=COL['light_gray'], lw=0.8)
-save(fig, 'fig01_qef_construction_coverage')
+save(fig, 'fig01_lef_construction_coverage')
 
 # ------------------------------------------------------------------
 # Figure 2: Stage-I model-to-model heatmap + horizon profile
@@ -237,8 +241,8 @@ save(fig, 'fig04_ablation_effect')
 # ------------------------------------------------------------------
 # Figure 5: Decision path + attention mechanism
 # ------------------------------------------------------------------
-paths_path = PROJECT / 'final_paper_archive/case_study/interpretability_true_attention/case_attention_paths.csv'
-attn_path = PROJECT / 'final_paper_archive/case_study/interpretability_true_attention/case_attention_weights.csv'
+paths_path = PROJECT / 'results' / 'case_attention_paths.csv'
+attn_path = PROJECT / 'results' / 'case_attention_weights.csv'
 if paths_path.exists() and attn_path.exists():
     paths = pd.read_csv(paths_path).sort_values('date')
     attn = pd.read_csv(attn_path)
