@@ -31,25 +31,7 @@ python scripts/qwen_event_memory_build.py
 - **dataset_with_qwen_cumulative.csv**: Dataset with cumulative QEF features.
 - **qwen_event_daily.csv**: Daily QEF extraction results per semantic channel.
 
-## Key Results
 
-| Metric | DRAEM (H7) | Best Baseline (H7) | Δ |
-|--------|-----------|-------------------|---|
-| MCC | 0.149 | 0.115 (XGBoost) | +0.034 |
-| DA | 61.5% | 58.6% (XGBoost) | +2.9pp |
-
-Under the H7 extreme-disagreement event-conflict window (`signal90_disagree90`):
-- MCC = 0.358, gain over best baseline = +0.123
-
-## Citation
-
-```bibtex
-@article{draem2026,
-  title={DRAEM: Conditional Semantic Residual Correction for Carbon-Price Direction Forecasting},
-  author={Anonymous},
-  year={2026}
-}
-```
 
 ## License
 
