@@ -15,11 +15,6 @@ DRAEM (Directional Residual Adjustment with Event Memory) is a conditional seman
 pip install -r requirements.txt
 ```
 
-3. **Ablation study:**
-   ```bash
-   python scripts/ablation_exp.py
-   python scripts/qef_draem_h7_ablation.py
-   ```
 
 ### LEF Extraction (requires Qwen2.5-7B-Instruct)
 
